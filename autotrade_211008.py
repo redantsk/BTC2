@@ -90,13 +90,13 @@ while True:
                 if curr_price < (avg_price * sp):
                     coin_val = get_balance(t_coin)
                     if coin_val > (5000/curr_price): 
-                        upbit.sell_market_order(target_coin, btc*0.9995)  
+                        upbit.sell_market_order(target_coin, coin_val*0.9995)  
                         transaction=0
  
         else:
             coin_val = get_balance(t_coin)
             if coin_val > (5000/curr_price): 
-                upbit.sell_market_order(target_coin, btc*0.9995)  
+                upbit.sell_market_order(target_coin, coin_val*0.9995)  
             transaction=0
             avg_price=0
         time.sleep(1)
