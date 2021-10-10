@@ -29,6 +29,17 @@ def get_balance(ticker):
                 return 0
     return 0
 
+def get_average(ticker):
+    """잔고 조회"""
+    balances = upbit.get_balances()
+    for b in balances:
+        if b['currency'] == ticker:
+            if b['avg_buy_price'] is not None:
+                return float(b['avg_buy_price'])
+            else:
+                return 0
+    return 0
+
 def get_current_price(ticker):
     """현재가 매도가 조회"""
     return pyupbit.get_orderbook(tickers=ticker)[0]["orderbook_units"][0]["ask_price"]
@@ -84,7 +95,7 @@ while True:
                     if krw > 5000:
                         upbit.buy_market_order(target_coin, krw*0.9995)
                         transaction = 1    
-                        avg_price = upbit.get_balance(target_coin)['avg_buy_price']          
+                        avg_price = get_average(t_coin)          
     
             elif transaction == 1:
                 curr_price = cur_price(target_coin)    
@@ -92,7 +103,7 @@ while True:
                     coin_val = get_balance(t_coin)
                     if coin_val > (5000/curr_price): 
                         upbit.sell_market_order(target_coin, coin_val*0.9995)  
-                        transaction=0
+                        transaction=2
  
         else:
             coin_val = get_balance(t_coin)
